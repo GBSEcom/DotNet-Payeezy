@@ -38,7 +38,7 @@ public partial class PayeezyCard : System.Web.UI.Page
 
         var payload = new
         {
-            merchant_ref = "MVC TEST",
+            merchant_ref = "WEBFORMS TEST",
             transaction_type = "authorize",
             method = "credit_card",
             amount = "1299",
@@ -62,7 +62,9 @@ public partial class PayeezyCard : System.Web.UI.Page
 		string base64Hash = Convert.ToBase64String(CalculateHMAC(hashData, apiSecret));
 		
 		string url = "https://api-cert.payeezy.com/v1/transactions";
-	   
+
+	    //prior to .NET 4.6, TLS1.2 is not default, the following will work for .NET 4.0 and above
+	    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072; 
 		//begin HttpWebRequest
 		HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
 
